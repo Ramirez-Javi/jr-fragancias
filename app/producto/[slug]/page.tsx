@@ -9,6 +9,8 @@ type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const revalidate = 300;
+
 export async function generateStaticParams() {
   const products = await getAllProducts();
   return products.map((product) => ({ slug: product.slug }));
