@@ -11,7 +11,7 @@ export function BrandCard({ brand }: BrandCardProps) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
-              Casa destacada
+              Marca con personalidad
             </p>
             <h2 className="display-font mt-3 text-[2rem] leading-tight sm:text-[2.2rem]">
               {brand.name}

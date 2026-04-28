@@ -32,7 +32,7 @@ export function EditorialGuides({ guides }: EditorialGuidesProps) {
             </p>
             <div className="mt-6">
               <Link href={`/guias/${guide.slug}`} className="feature-card-button">
-                Leer guia
+                Ver guia
               </Link>
             </div>
           </div>

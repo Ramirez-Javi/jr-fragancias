@@ -60,7 +60,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <p className="text-xl font-semibold text-foreground">{product.priceFromLabel}</p>
           </div>
           <Link href={`/producto/${product.slug}`} className="feature-card-button shrink-0">
-            Ver detalle
+            Ver mas
           </Link>
         </div>
       </div>

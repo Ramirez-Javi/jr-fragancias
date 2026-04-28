@@ -1,9 +1,11 @@
-import Image from "next/image";
 import { EditorialGuides } from "@/components/home/editorial-guides";
 import { BrandGrid } from "@/components/home/brand-grid";
 import { FeaturedProducts } from "@/components/home/featured-products";
+import { HeroProductRotator } from "@/components/home/hero-product-rotator";
 import { CtaLink } from "@/components/shared/cta-link";
-import { getAllBrands, getBanners, getEditorialGuides, getFeaturedProducts } from "@/lib/cms/queries";
+import { getAllBrands, getAllProducts, getBanners, getEditorialGuides, getFeaturedProducts } from "@/lib/cms/queries";
+
+export const revalidate = 300;
 
 export default async function Home() {
   const categories = [
@@ -34,14 +36,15 @@ export default async function Home() {
     "Escribenos por WhatsApp y te ayudamos a decidir rapido.",
   ];
 
-  const [featuredProducts, featuredBrands, banners, guides] = await Promise.all([
+  const [featuredProducts, featuredBrands, banners, guides, allProducts] = await Promise.all([
     getFeaturedProducts(),
     getAllBrands(),
     getBanners(),
     getEditorialGuides(),
+    getAllProducts(),
   ]);
-  const heroProduct = featuredProducts[0];
   const heroBanner = banners[0];
+  const heroProducts = allProducts.filter((product) => Boolean(product.mainImageUrl));
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 pb-12 pt-5 sm:px-8 lg:px-12">
@@ -73,17 +76,7 @@ export default async function Home() {
 
           <div className="section-shell rounded-[1.75rem] p-6 sm:p-7 lg:mt-0 lg:max-w-[25rem] lg:justify-self-end lg:self-start">
             <div className="space-y-5">
-              {heroProduct?.mainImageUrl ? (
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-foreground/10 bg-white/60">
-                  <Image
-                    src={heroProduct.mainImageUrl}
-                    alt={heroProduct.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 35vw"
-                    className="object-cover"
-                  />
-                </div>
-              ) : null}
+              <HeroProductRotator products={heroProducts} />
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
                   ¿Por donde empezar?
@@ -122,10 +115,10 @@ export default async function Home() {
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
-              Perfumes disponibles
+              Perfumes para ti
             </p>
             <h2 className="display-font mt-2 text-4xl leading-tight">
-              Mira algunas opciones que ya tenemos cargadas.
+              Mira las opciones que van contigo.
             </h2>
           </div>
           <CtaLink href="/catalogo" label="Ver todo el catalogo" variant="secondary" />
@@ -139,7 +132,7 @@ export default async function Home() {
       >
         <div className="space-y-4">
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8c2a0]">
-            Comprar aqui es simple
+            Comprar aqui se siente facil
           </p>
           <h2 className="display-font text-4xl leading-tight">
             Queremos que elijas bien, no que compres a ciegas.
@@ -187,10 +180,10 @@ export default async function Home() {
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
-              Guias utiles
+              Guias para ti
             </p>
             <h2 className="display-font mt-2 text-4xl leading-tight">
-              Consejos simples para comprar mejor.
+              Consejos simples para elegir mejor.
             </h2>
           </div>
           <CtaLink href="/guias" label="Ver todas las guias" variant="secondary" />
@@ -202,7 +195,7 @@ export default async function Home() {
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
-              ¿Como comprar?
+              ¿Como pedir el tuyo?
             </p>
             <h2 className="display-font mt-3 text-4xl leading-tight">
               Hazlo facil y elige con mas seguridad.

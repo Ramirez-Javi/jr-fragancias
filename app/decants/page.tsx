@@ -7,7 +7,7 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 export const metadata = createPageMetadata({
   title: "Decants | JR Fragancias",
   description:
-    "Conoce los decants de JR Fragancias y prueba una fragancia antes de invertir en el frasco completo.",
+    "Prueba una fragancia en tu piel antes de ir por el frasco completo y elige con mas seguridad.",
 });
 
 export default async function DecantsPage() {
@@ -18,8 +18,8 @@ export default async function DecantsPage() {
       <section className="section-shell rounded-[2rem] px-6 py-8 sm:px-8 lg:px-10">
         <SectionIntro
           eyebrow="Decants"
-          title="Prueba antes de comprar y elige con mas seguridad."
-          description="Un decant te deja conocer la fragancia en tu piel, ver como dura y decidir si de verdad quieres llevarte el frasco grande."
+          title="Prueba primero y elige con mas seguridad."
+          description="Un decant te deja conocer la fragancia en tu piel, ver como dura y decidir con calma si de verdad quieres llevarte el frasco grande."
         />
         <div className="mt-6 flex flex-wrap gap-3">
           <CtaLink href="/contacto" label="Consultar decants disponibles" />

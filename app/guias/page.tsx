@@ -17,8 +17,8 @@ export default async function GuidesPage() {
       <section className="section-shell rounded-[2rem] px-6 py-8 sm:px-8 lg:px-10">
         <SectionIntro
           eyebrow="Guias"
-          title="Consejos simples para elegir mejor tu proxima fragancia."
-          description="Aqui reunimos contenido util para que entiendas mejor como comprar, que esperar de un decant y que mirar segun tu estilo y tu rutina."
+          title="Guias simples para elegir mejor tu proxima fragancia."
+          description="Aqui reunimos contenido util para que entiendas mejor que mirar, que esperar de un decant y como elegir segun tu estilo y tu rutina."
         />
       </section>
 

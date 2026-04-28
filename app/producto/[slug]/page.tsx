@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
   if (!product) {
     return createPageMetadata({
       title: "Producto no encontrado | JR Fragancias",
-      description: "La fragancia solicitada no existe dentro del catalogo actual.",
+      description: "La fragancia que buscas ya no esta disponible dentro del catalogo actual.",
     });
   }
 
@@ -40,7 +40,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   const whatsappHref = buildWhatsAppLink(
-    `Hola, me interesa ${product.name}. Quiero saber disponibilidad y precio.`
+    `Hola, me interesa ${product.name}. Quiero saber si va conmigo, su precio y disponibilidad.`
   );
   const galleryImages = product.galleryImageUrls?.filter(Boolean) ?? [];
 
@@ -109,7 +109,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted">
-                Perfil de compra
+                Ideal si buscas
               </p>
               <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted">
                 <span>{product.productType}</span>
@@ -147,7 +147,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 rel="noopener noreferrer"
                 className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-semibold text-[#fff8f2] transition-transform duration-200 hover:-translate-y-0.5"
               >
-                Consultar por WhatsApp
+                Preguntar por WhatsApp
               </a>
               <CtaLink href="/catalogo" label="Volver al catalogo" variant="secondary" />
             </div>

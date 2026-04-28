@@ -6,7 +6,7 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 export const metadata = createPageMetadata({
   title: "Marcas | JR Fragancias",
   description:
-    "Descubre las casas destacadas del catalogo de JR Fragancias y el tipo de estilo que cada una aporta a la seleccion actual.",
+    "Conoce las marcas del catalogo y descubre cual conecta mejor con tu estilo y lo que quieres proyectar.",
 });
 
 export default async function BrandsPage() {
@@ -17,8 +17,8 @@ export default async function BrandsPage() {
       <section className="section-shell rounded-[2rem] px-6 py-8 sm:px-8 lg:px-10">
         <SectionIntro
           eyebrow="Marcas"
-          title="Casas con personalidad propia dentro del catalogo JR Fragancias."
-          description="Aqui reunimos una lectura mas clara de las marcas que trabajamos para que puedas ubicar mejor su estilo, su caracter y el tipo de presencia que suelen ofrecer."
+          title="Marcas con personalidad propia para distintos estilos."
+          description="Aqui reunimos una lectura mas clara de las marcas que trabajamos para que te sea mas facil ubicar su estilo, su caracter y el tipo de presencia que suelen ofrecer."
         />
       </section>
 

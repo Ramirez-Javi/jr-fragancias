@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: GuidePageProps) {
   if (!guide) {
     return createPageMetadata({
       title: "Guia no encontrada | JR Fragancias",
-      description: "La guia solicitada no existe dentro del contenido actual.",
+      description: "La guia que buscas ya no esta disponible dentro del contenido actual.",
     });
   }
 
@@ -63,7 +63,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <div className="space-y-6 p-6 sm:p-8 lg:p-10">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-              Guia editorial
+              Guia para ti
             </p>
             <h1 className="display-font mt-3 text-4xl leading-tight sm:text-5xl">
               {guide.title}

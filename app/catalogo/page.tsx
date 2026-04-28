@@ -6,7 +6,7 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 export const metadata = createPageMetadata({
   title: "Catalogo | JR Fragancias",
   description:
-    "Explora perfumes y decants pensados para durar, hacerte sentir bien y ayudarte a elegir con seguridad.",
+    "Perfumes y decants para que explores a tu ritmo y encuentres algo que de verdad vaya contigo.",
 });
 
 export default async function CatalogPage() {
@@ -21,7 +21,7 @@ export default async function CatalogPage() {
         <SectionIntro
           eyebrow="Catalogo"
           title="Encuentra una fragancia que hable por ti."
-          description="Aqui puedes ver perfumes completos y decants para probar con calma. Compara estilos, revisa la duracion y elige algo que encaje contigo de verdad."
+          description="Aqui puedes ver perfumes completos y decants para probar con calma. Compara estilos, revisa la duracion y elige algo que de verdad vaya contigo."
         />
       </section>
 

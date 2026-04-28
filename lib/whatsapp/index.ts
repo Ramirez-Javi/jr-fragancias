@@ -1,4 +1,4 @@
-const defaultPhone = "51999999999";
+const defaultPhone = "595991900518";
 
 export function buildWhatsAppLink(message: string, phone = defaultPhone) {
   const encodedMessage = encodeURIComponent(message);

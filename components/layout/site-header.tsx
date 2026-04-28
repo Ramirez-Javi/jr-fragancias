@@ -40,7 +40,7 @@ export function SiteHeader() {
           href="/contacto"
           className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-accent px-4 py-2 text-sm font-semibold leading-tight text-[#fff8f2] text-center transition-transform duration-200 hover:-translate-y-0.5 sm:px-5"
         >
-          Escribir al WhatsApp
+          Hablemos por WhatsApp
         </Link>
       </div>
     </header>
