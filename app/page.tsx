@@ -1,13 +1,14 @@
 import { EditorialGuides } from "@/components/home/editorial-guides";
-import { BrandGrid } from "@/components/home/brand-grid";
 import { FeaturedProducts } from "@/components/home/featured-products";
 import { HeroProductRotator } from "@/components/home/hero-product-rotator";
 import { CtaLink } from "@/components/shared/cta-link";
-import { getAllBrands, getAllProducts, getBanners, getEditorialGuides, getFeaturedProducts } from "@/lib/cms/queries";
+import { getAllProducts, getBanners, getEditorialGuides, getFeaturedProducts } from "@/lib/cms/queries";
 
 export const revalidate = 300;
 
 export default async function Home() {
+  const hasHeroImage = (product: { mainImageUrl?: string; galleryImageUrls?: string[] }) =>
+    Boolean(product.mainImageUrl ?? product.galleryImageUrls?.[0]);
   const categories = [
     "Perfumes que duran todo el dia",
     "Decants: prueba por poco dinero",
@@ -36,26 +37,23 @@ export default async function Home() {
     "Escribenos por WhatsApp y te ayudamos a decidir rapido.",
   ];
 
-  const [featuredProducts, featuredBrands, banners, guides, allProducts] = await Promise.all([
+  const [featuredProducts, banners, guides, allProducts] = await Promise.all([
     getFeaturedProducts(),
-    getAllBrands(),
     getBanners(),
     getEditorialGuides(),
     getAllProducts(),
   ]);
   const heroBanner = banners[0];
-  const heroProducts = allProducts.filter((product) => Boolean(product.mainImageUrl));
+  const heroProductsSource = allProducts.some(hasHeroImage) ? allProducts : featuredProducts;
+  const heroProducts = heroProductsSource.filter(hasHeroImage);
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 pb-12 pt-5 sm:px-8 lg:px-12">
-      <section className="hero-shell relative overflow-hidden rounded-[2rem] px-6 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-9">
-        <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <div className="hero-copy-shell rounded-[1.75rem] px-6 py-7 sm:px-8 sm:py-8 lg:min-h-full lg:px-10 lg:py-9">
-            <div className="space-y-6 pt-2 lg:max-w-[36rem] lg:pt-3">
-              <div className="inline-flex items-center rounded-full border border-accent/20 bg-background/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-accent">
-                JR Fragancias
-              </div>
-              <div className="space-y-5">
+    <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 pb-12 pt-0 sm:px-8 lg:px-12">
+      <section className="hero-shell relative overflow-hidden rounded-[2rem] px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-5">
+        <div className="relative grid gap-5 lg:grid-cols-[minmax(0,1.32fr)_minmax(22rem,0.68fr)] lg:items-start lg:gap-4">
+          <div className="hero-copy-shell rounded-[1.75rem] px-5 py-5 sm:px-6 sm:py-6 lg:min-h-full lg:px-7 lg:py-6">
+            <div className="space-y-4 lg:max-w-[36rem]">
+              <div className="space-y-4">
                 <h1 className="display-font max-w-3xl text-5xl leading-[0.94] tracking-[-0.02em] sm:text-6xl lg:text-[4.7rem]">
                   {heroBanner?.title ?? "Encuentra el aroma que te define."}
                 </h1>
@@ -64,7 +62,7 @@ export default async function Home() {
                     "Trabajamos perfumes completos y decants de distintas lineas. Entre ellas hay marcas arabes que destacan mucho, junto con otras opciones que iremos sumando al catalogo."}
                 </p>
               </div>
-              <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="flex flex-col gap-2.5 sm:flex-row">
                 <CtaLink
                   href={heroBanner?.ctaHref ?? "/catalogo"}
                   label={heroBanner?.ctaLabel ?? "Ver perfumes disponibles"}
@@ -74,28 +72,31 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="section-shell rounded-[1.75rem] p-6 sm:p-7 lg:mt-0 lg:max-w-[25rem] lg:justify-self-end lg:self-start">
-            <div className="space-y-5">
-              <HeroProductRotator products={heroProducts} />
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
-                  ¿Por donde empezar?
-                </p>
-                <h2 className="display-font mt-3 text-3xl leading-tight">
-                  Lo que buscas hoy puede estar aqui.
-                </h2>
+          <div className="section-shell w-full rounded-[1.75rem] p-6 sm:p-7 lg:mt-0 lg:max-w-[25rem] lg:justify-self-end lg:self-start">
+            <HeroProductRotator products={heroProducts} />
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-5 section-shell rounded-[1.75rem] px-5 py-6 sm:px-6 sm:py-7 lg:px-8">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
+              ¿Por donde empezar?
+            </p>
+            <h2 className="display-font mt-3 text-3xl leading-tight sm:text-[2.6rem]">
+              Lo que buscas hoy puede estar aqui.
+            </h2>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4 lg:flex-1 lg:pl-6">
+            {categories.map((item) => (
+              <div
+                key={item}
+                className="rounded-2xl border border-foreground/8 bg-white/55 px-4 py-3 text-sm font-medium text-foreground/88"
+              >
+                {item}
               </div>
-              <div className="grid gap-3">
-                {categories.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-2xl border border-foreground/8 bg-white/55 px-4 py-3 text-sm font-medium text-foreground/88"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -159,21 +160,6 @@ export default async function Home() {
             <p className="mt-3">Si dudas entre dos opciones, te orientamos por estilo, clima, uso y el tipo de presencia que quieres dejar.</p>
           </div>
         </div>
-      </section>
-
-      <section className="mt-8">
-        <div className="mb-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
-            Marcas que trabajamos
-          </p>
-          <h2 className="display-font mt-2 text-4xl leading-tight">
-            Opciones destacadas dentro de un catalogo que sigue creciendo.
-          </h2>
-          <p className="mt-3 max-w-3xl text-base leading-8 text-muted">
-            Cada casa aporta un estilo distinto al catalogo. Aqui dejamos una lectura rapida para que entiendas mejor que tipo de presencia, caracter y sensacion suele ofrecer cada una.
-          </p>
-        </div>
-        <BrandGrid brands={featuredBrands} />
       </section>
 
       <section className="mt-8">

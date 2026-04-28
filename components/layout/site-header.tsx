@@ -41,8 +41,8 @@ const mobileActionClassName =
 
 export function SiteHeader() {
   return (
-    <header className="relative z-40 px-4 py-4 sm:px-6 md:sticky md:top-0 lg:px-8">
-      <div className="glass-panel mx-auto flex w-full max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-3 sm:px-5">
+    <header className="relative z-40 px-4 py-1 sm:px-6 sm:py-2 md:sticky md:top-0 lg:px-8">
+      <div className="glass-panel mx-auto flex w-full max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 sm:px-5 sm:py-3">
         <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1f1714] text-sm font-semibold tracking-[0.18em] text-[#f8f2ea] sm:h-11 sm:w-11">
             JR

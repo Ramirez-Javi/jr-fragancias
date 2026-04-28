@@ -30,9 +30,17 @@ export function HeroProductRotator({
   products,
   intervalMs = DEFAULT_INTERVAL_MS,
 }: HeroProductRotatorProps) {
-  const imageProducts = useMemo(
-    () => products.filter((product) => Boolean(product.mainImageUrl)),
+  const rotatorProducts = useMemo(
+    () =>
+      products.map((product) => ({
+        ...product,
+        imageUrl: product.mainImageUrl ?? product.galleryImageUrls?.[0],
+      })),
     [products],
+  );
+  const imageProducts = useMemo(
+    () => rotatorProducts.filter((product) => Boolean(product.imageUrl)),
+    [rotatorProducts],
   );
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -50,8 +58,33 @@ export function HeroProductRotator({
     };
   }, [currentIndex, imageProducts.length, intervalMs]);
 
-  if (imageProducts.length === 0) {
+  if (rotatorProducts.length === 0) {
     return null;
+  }
+
+  if (imageProducts.length === 0) {
+    const fallbackProduct = rotatorProducts[0];
+
+    return (
+      <Link
+        href={`/producto/${fallbackProduct.slug}`}
+        className="group block w-full rounded-[1.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+        aria-label={`Ver detalle de ${fallbackProduct.name}`}
+      >
+        <div
+          className="flex aspect-[4/5] w-full items-end overflow-hidden rounded-[1.5rem] border border-foreground/10 p-5 text-[#fff8f2]"
+          style={{ background: fallbackProduct.accentGradient }}
+        >
+          <div className="w-full rounded-[1.2rem] border border-white/15 bg-[#1f1714]/28 p-4 backdrop-blur-sm transition-transform duration-300 group-hover:translate-y-[-2px]">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/78">
+              {fallbackProduct.brand.name}
+            </p>
+            <p className="display-font mt-3 text-4xl leading-none">{fallbackProduct.name}</p>
+            <p className="mt-3 text-sm leading-7 text-white/84">{fallbackProduct.shortDescription}</p>
+          </div>
+        </div>
+      </Link>
+    );
   }
 
   const activeIndex = currentIndex < imageProducts.length ? currentIndex : 0;
@@ -60,10 +93,10 @@ export function HeroProductRotator({
   return (
     <Link
       href={`/producto/${activeProduct.slug}`}
-      className="group block rounded-[1.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+      className="group block w-full rounded-[1.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
       aria-label={`Ver detalle de ${activeProduct.name}`}
     >
-      <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-foreground/10 bg-white/60">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] border border-foreground/10 bg-white/60">
         {imageProducts.map((product, index) => (
           <div
             key={product.id}
@@ -73,7 +106,7 @@ export function HeroProductRotator({
             aria-hidden={index !== activeIndex}
           >
             <Image
-              src={product.mainImageUrl!}
+              src={product.imageUrl!}
               alt={product.name}
               fill
               sizes="(max-width: 1024px) 100vw, 35vw"
