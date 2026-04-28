@@ -16,9 +16,25 @@ const sansFont = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "JR Fragancias | Catalogo Premium de Perfumes y Decants",
+  metadataBase: new URL("https://www.jrfragancias.com"),
+  title: "JR Fragancias | Perfumes y decants que van contigo",
   description:
-    "Boutique digital mobile-first para descubrir perfumes, decants y fragancias con identidad.",
+    "Descubre perfumes y decants a tu ritmo, compara opciones y encuentra una fragancia que de verdad vaya contigo.",
+  openGraph: {
+    title: "JR Fragancias | Perfumes y decants que van contigo",
+    description:
+      "Descubre perfumes y decants a tu ritmo, compara opciones y encuentra una fragancia que de verdad vaya contigo.",
+    url: "https://www.jrfragancias.com",
+    siteName: "JR Fragancias",
+    locale: "es_PY",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "JR Fragancias | Perfumes y decants que van contigo",
+    description:
+      "Descubre perfumes y decants a tu ritmo, compara opciones y encuentra una fragancia que de verdad vaya contigo.",
+  },
 };
 
 export default function RootLayout({
