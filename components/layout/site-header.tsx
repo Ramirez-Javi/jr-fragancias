@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useId, useState } from "react";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 function WhatsAppIcon() {
@@ -25,6 +28,19 @@ function TikTokIcon() {
   );
 }
 
+function MenuIcon({ open }: { open: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4.5 w-4.5 stroke-current" fill="none">
+      <path
+        d={open ? "M6 6l12 12M18 6 6 18" : "M4 7h16M4 12h16M4 17h16"}
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const navigation = [
   { href: "/catalogo", label: "Catalogo" },
   { href: "/marcas", label: "Marcas" },
@@ -40,9 +56,42 @@ const mobileActionClassName =
   "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-foreground/10 bg-white/55 text-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent hover:text-[#fff8f2]";
 
 export function SiteHeader() {
+  const menuId = useId();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMenuOpen]);
+
   return (
     <header className="relative z-40 px-4 py-1 sm:px-6 sm:py-2 md:sticky md:top-0 lg:px-8">
-      <div className="glass-panel mx-auto flex w-full max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 sm:px-5 sm:py-3">
+      {isMenuOpen ? (
+        <button
+          type="button"
+          aria-label="Cerrar menu movil"
+          className="fixed inset-0 z-0 bg-[#1f1714]/28 backdrop-blur-[3px] lg:hidden"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      ) : null}
+
+      <div className="glass-panel relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 sm:px-5 sm:py-3">
         <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1f1714] text-sm font-semibold tracking-[0.18em] text-[#f8f2ea] sm:h-11 sm:w-11">
             JR
@@ -95,6 +144,38 @@ export function SiteHeader() {
           >
             <TikTokIcon />
           </a>
+          <button
+            type="button"
+            aria-expanded={isMenuOpen}
+            aria-controls={menuId}
+            aria-label={isMenuOpen ? "Cerrar menu principal" : "Abrir menu principal"}
+            className={`${mobileActionClassName} lg:hidden`}
+            onClick={() => setIsMenuOpen((current) => !current)}
+          >
+            <MenuIcon open={isMenuOpen} />
+          </button>
+        </div>
+      </div>
+
+      <div
+        id={menuId}
+        className={`relative z-10 mx-auto flex w-full max-w-7xl justify-end overflow-hidden px-2 transition-all duration-300 ease-out lg:hidden ${
+          isMenuOpen ? "mt-3 max-h-96 opacity-100" : "pointer-events-none mt-0 max-h-0 opacity-0"
+        }`}
+      >
+        <div className="glass-panel w-fit min-w-[12rem] rounded-[2rem] px-5 py-4 shadow-[0_24px_64px_rgba(31,23,20,0.2)]">
+          <nav className="flex w-fit flex-col gap-1.5" aria-label="Menu principal movil">
+            {navigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-2xl px-3 py-3 text-left text-sm font-semibold text-foreground/80 transition-colors hover:bg-white/45 hover:text-foreground"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </header>

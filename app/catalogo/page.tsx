@@ -16,8 +16,8 @@ export default async function CatalogPage() {
   ]);
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 pb-12 pt-6 sm:px-8 lg:px-12">
-      <section className="section-shell rounded-[2rem] px-6 py-8 sm:px-8 lg:px-10">
+    <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 pb-12 pt-3 sm:px-8 sm:pt-6 lg:px-12">
+      <section className="section-shell rounded-[1.7rem] px-5 py-5 sm:rounded-[2rem] sm:px-8 sm:py-8 lg:px-10">
         <SectionIntro
           eyebrow="Catalogo"
           title="Encuentra una fragancia que hable por ti."
@@ -25,18 +25,23 @@ export default async function CatalogPage() {
         />
       </section>
 
-      <section className="mt-8 grid gap-4 lg:grid-cols-3">
+      <section className="mt-4 grid gap-2.5 sm:mt-6 sm:gap-3 lg:grid-cols-3">
         {sections.map((section) => (
-          <article key={section.id} className="section-shell rounded-[1.5rem] p-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+          <article
+            key={section.id}
+            className="section-shell rounded-[1.35rem] px-4 py-3.5 sm:rounded-[1.5rem] sm:px-5 sm:py-5"
+          >
+            <p className="text-[0.78rem] font-semibold uppercase tracking-[0.15em] text-accent sm:text-[0.84rem] sm:tracking-[0.16em]">
               {section.title}
             </p>
-            <p className="mt-4 text-base leading-8 text-muted">{section.description}</p>
+            <p className="mt-2 text-[0.94rem] leading-6.5 text-muted sm:mt-2.5 sm:text-[1rem] sm:leading-7">
+              {section.description}
+            </p>
           </article>
         ))}
       </section>
 
-      <section className="mt-8 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+      <section className="mt-4 grid gap-4 sm:mt-6 sm:gap-5 lg:grid-cols-2 xl:grid-cols-3">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
