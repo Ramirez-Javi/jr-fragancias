@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 import { CtaLink } from "@/components/shared/cta-link";
 import { getAllProducts, getProductBySlug } from "@/lib/cms/queries";
 import { createPageMetadata } from "@/lib/seo/metadata";
@@ -11,6 +12,10 @@ type ProductPageProps = {
 
 export const revalidate = 300;
 
+const productSlugRedirects: Record<string, string> = {
+  "hawas-ice-for-his": "hawas-ice-for-him",
+};
+
 export async function generateStaticParams() {
   const products = await getAllProducts();
   return products.map((product) => ({ slug: product.slug }));
@@ -18,7 +23,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
+  const canonicalSlug = productSlugRedirects[slug] ?? slug;
+  const product = await getProductBySlug(canonicalSlug);
 
   if (!product) {
     return createPageMetadata({
@@ -35,6 +41,12 @@ export async function generateMetadata({ params }: ProductPageProps) {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
+  const redirectSlug = productSlugRedirects[slug];
+
+  if (redirectSlug) {
+    permanentRedirect(`/producto/${redirectSlug}`);
+  }
+
   const product = await getProductBySlug(slug);
 
   if (!product) {

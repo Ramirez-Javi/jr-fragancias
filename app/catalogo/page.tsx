@@ -3,6 +3,8 @@ import { SectionIntro } from "@/components/shared/section-intro";
 import { getAllProducts, getCatalogSections } from "@/lib/cms/queries";
 import { createPageMetadata } from "@/lib/seo/metadata";
 
+export const revalidate = 300;
+
 export const metadata = createPageMetadata({
   title: "Catalogo | JR Fragancias",
   description:
